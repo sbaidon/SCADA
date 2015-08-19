@@ -1,0 +1,48 @@
+{
+  "name": "NODE-OPCUA",
+  "version": "1.0.0",
+  "authors": [
+    "sbaidon <sbaidon@outlook.com>"
+  ],
+  "description": "OPC UA Connection",
+  "main": "app.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "accessibility-developer-tools": "GoogleChrome/accessibility-developer-tools#^2.7.0",
+    "async": "^0.9.2",
+    "chai": "^2.3.0",
+    "hydrolysis": "Polymer/hydrolysis#^1.11",
+    "font-roboto": "PolymerElements/font-roboto#^1.0.0",
+    "iron-a11y-announcer": "polymerelements/iron-a11y-announcer#^1.0.0",
+    "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#^1.0.0",
+    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.0",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
+    "iron-collapse": "PolymerElements/iron-collapse#^1.0.0",
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^1.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-elements": "PolymerElements/iron-elements#1.0.0",
+    "iron-list": "PolymerElements/iron-list#^1.0.0",
+    "lodash": "^3.7.0",
+    "mocha": "^2.2.4",
+    "neon-animation": "PolymerElements/neon-animation#^1.0.0",
+    "neon-elements": "PolymerElements/neon-elements#1.0.0",
+    "page": "visionmedia/page.js#~1.6.3",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.0",
+    "paper-dialog-behavior": "PolymerElements/paper-dialog-behavior#^1.0.0",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^1.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.0.0",
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#1.0.1",
+    "platinum-elements": "PolymerElements/platinum-elements#1.0.1",
+    "polymer": "Polymer/polymer#1.0.0",
+    "sinon-chai": "^2.7.0",
+    "sinonjs": "^1.14.1",
+    "stacky": "PolymerLabs/stacky#^1.2.2",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

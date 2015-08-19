@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+
+<head>
+
+    <link rel="import" href="imports/build.html">
+
+    <script>
+        function updateChart(value) {
+            var t = new Date();
+            var currentDate = ("0" + t.getHours()).slice(-2) + ":" +
+            ("0" + t.getMinutes()).slice(-2) + ":" +
+            ("0" + t.getSeconds()).slice(-2);
+            var charts = [realTimeAll, realTimeGas, realTimeBattery, realTimeLoad, realTimePv];
+            var gauges = [biogasGauge, batteryGauge, loadGauge, pvGauge];
+            var values = [{
+                "time": currentDate,
+                "biogas": value,
+                "pv": value,
+                "battery": value,
+                "load": value + value + value
+            }, {
+                "time": currentDate,
+                "biogas": value
+            }, {
+                "time": currentDate,
+                "battery": value
+            }, {
+                "time": currentDate,
+                "load": value
+            }, {
+                "time": currentDate,
+                "pv": value
+            }];
+
+            for (var i = 0; i < charts.length; i++) {
+                charts[i].dataProvider.shift();
+                charts[i].dataProvider.push(values[i]);
+                charts[i].validateData();
+            }
+
+            for (var i = 0; i < gauges.length; i++) {
+                gauges[i].arrows[0].setValue(value);
+                gauges[i].axes[0].setBottomText(value + "MW");
+            }
+
+            $(".content-value").each(
+                function (index) {
+                    $(this).html(("" + value * Math.floor((Math.random() * 10) + 1)))
+                });
+
+            /*
+                $("#battery-value").html("" + value * Math.floor((Math.random() * 10) + 1));
+                $("#biogas-value").html("" + value * Math.floor((Math.random() * 10) + 1));
+                $("#load-value").html("" + value * Math.floor((Math.random() * 10) + 1));;
+                $("#pv-value").html("" + value * Math.floor((Math.random() * 10) + 1));;
+                */
+
+        }
+
+        function batteryToggle(button) {
+            styleToggle($(button));
+        }
+
+        function styleToggle(button) {
+            if (button.hasClass('green')) {
+                button.removeClass('green');
+                button.addClass('red');
+                button.find('span').text('OFF');
+            } else {
+                button.removeClass('red');
+                button.addClass('green');
+                button.find('span').text('ON');
+
+            }
+        }
+    </script>
+
+</head>
+
+<body class="fullbleed layout vertical epoch-theme-default">
+
+
+    <style is="custom-style">
+        paper-toolbar {
+            --paper-toolbar-background: #00796B;
+            /* changes the background to blue*/
+        }
+    </style>
+
+    <template is="dom-bind">
+
+        <paper-header-panel class="flex">
+            <paper-toolbar>
+                <div class="title">SCADA Hochschule Aschaffenburg</div>
+
+            </paper-toolbar>
+            <paper-tabs selected={{selected}} style="background-color:#009688;">
+                <paper-tab class="text">Battery</paper-tab>
+                <paper-tab class="text">Biogas</paper-tab>
+                <paper-tab class="text">PV</paper-tab>
+                <paper-tab class="text">Load</paper-tab>
+                <paper-tab class="text">All</paper-tab>
+            </paper-tabs>
+
+            <iron-pages selected={{selected}}>
+                <div id="battery">
+                    <div class="item hundred-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Battery</div>
+                                        <div secondary>Real time data</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="device:battery-full"></iron-icon>
+                                </paper-item>
+                                <div id="real-time-battery" style="height:200px; width:100%;"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+
+                    <div class="item eighty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Battery</div>
+                                        <div secondary>Charge and discharge</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="device:battery-full"></iron-icon>
+                                </paper-item>
+                                <div id="battery-charge" style="height:200px; width:100%;"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div style="display:inline-block; width:19%; float:right">
+                        <div class="description">
+                            <paper-item>
+                                <paper-item-body two-line>
+                                    <div>Battery</div>
+                                    <div secondary>ON/OFF</div>
+                                </paper-item-body>
+                                <iron-icon icon="device:battery-full"></iron-icon>
+                            </paper-item>
+                        </div>
+                        <div>
+                            <paper-button raised onclick="batteryToggle(this)" class="green">
+                                <span class="text" class="button-text">ON</span>
+                            </paper-button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="gas">
+                    <div class="item hundred-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Biogas</div>
+                                        <div secondary>Real time data</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:nature"></iron-icon>
+                                </paper-item>
+                                <div id="real-time-gas" style="height:200px; width:100%"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div class="item eighty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Biogas</div>
+                                        <div secondary>Gas production</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:nature"></iron-icon>
+                                </paper-item>
+                                <div id="gas-production" style="height:200px; width:100%"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div style="display:inline-block; width:19%; float:right">
+                        <div class="description">
+                            <paper-item>
+                                <paper-item-body two-line>
+                                    <div>Biogas</div>
+                                    <div secondary>ON/OFF</div>
+                                </paper-item-body>
+                                <iron-icon icon="image:nature"></iron-icon>
+                            </paper-item>
+                        </div>
+                        <div>
+                            <paper-button raised onclick="batteryToggle(this)" class="green">
+                                <span class="text" class="button-text">ON</span>
+                            </paper-button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div id="pv">
+
+                    <div class="item hundred-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>PV</div>
+                                        <div secondary>Real time data</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:view-comfy"></iron-icon>
+                                </paper-item>
+                                <div id="real-time-pv" style="height:200px; width:100%"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div class="item eighty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>PV</div>
+                                        <div secondary>PV production</div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:view-comfy"></iron-icon>
+                                </paper-item>
+                                <div id="pv-production" style="height:200px; width:100%"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div style="display:inline-block; width:19%; float:right">
+                        <div class="description">
+                            <paper-item>
+                                <paper-item-body two-line>
+                                    <div>PV</div>
+                                    <div secondary>ON/OFF</div>
+                                </paper-item-body>
+                                <iron-icon icon="image:view-comfy"></iron-icon>
+                            </paper-item>
+                        </div>
+                        <div>
+                            <paper-button raised onclick="batteryToggle(this)" class="green">
+                                <span class="text" class="button-text">ON</span>
+                            </paper-button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div id="load">
+                    <div>
+                        <div class="item hundred-item">
+                            <paper-material elevation="3">
+                                <div class="description">
+                                    <paper-item>
+                                        <paper-item-body two-line>
+                                            <div>Load</div>
+                                            <div secondary>Real time data</div>
+                                        </paper-item-body>
+                                        <iron-icon icon="icons:trending-up"></iron-icon>
+                                    </paper-item>
+                                    <div id="real-time-load" style="width: 100%; height: 200px;"></div>
+                                </div>
+                            </paper-material>
+                        </div>
+
+                        <div class="item hundred-item">
+                            <paper-material elevation="3">
+                                <div class="description">
+                                    <paper-item>
+                                        <paper-item-body two-line>
+                                            <div>Load</div>
+                                            <div secondary>Load production </div>
+                                        </paper-item-body>
+                                        <iron-icon icon="icons:trending-up"></iron-icon>
+                                    </paper-item>
+                                    <div id="load-production" style="width: 100%; height: 200px;"></div>
+                                </div>
+                            </paper-material>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+                <div id="all">
+                    <div class="item hundred-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Daily data</div>
+                                        <div secondary> MW </div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:flash-on"></iron-icon>
+                                </paper-item>
+                                <div id="historical-data" style="width: 100%; height: 250px;"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+
+                    <div class="item twenty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Biogas</div>
+                                        <div secondary> MW </div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:nature"></iron-icon>
+                                </paper-item>
+                                <div id="biogas-gauge" class="gauges"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div class="item twenty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Battery</div>
+                                        <div secondary> MW </div>
+                                    </paper-item-body>
+                                    <iron-icon icon="device:battery-full"></iron-icon>
+                                </paper-item>
+                                <div id="battery-gauge" class="gauges"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+                    <div class="item twenty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>PV</div>
+                                        <div secondary> MW </div>
+                                    </paper-item-body>
+                                    <iron-icon icon="image:view-comfy"></iron-icon>
+                                </paper-item>
+                                <div id="pv-gauge" class="gauges"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div class="item twenty-item">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Load</div>
+                                        <div secondary> MW </div>
+                                    </paper-item-body>
+                                    <iron-icon icon="icons:trending-up"></iron-icon>
+                                </paper-item>
+                                <div id="load-gauge" class="gauges"></div>
+                            </div>
+                        </paper-material>
+                    </div>
+
+                    <div class="item twenty-item" style="width:19%; float:right; margin-top:4px;">
+                        <paper-material elevation="3">
+                            <div class="description">
+                                <paper-item>
+                                    <paper-item-body two-line>
+                                        <div>Forecasted</div>
+                                        <div secondary>1st Quarter</div>
+                                        <p>Battery:<span class="content-value"></span>
+                                        </p>
+                                        <p>Load:<span class="content-value"></span>
+                                        </p>
+                                        <p>PV:<span class="content-value"></span>
+                                        </p>
+                                        <p>Biogas:<span class="content-value"></span>
+                                        </p>
+                                    </paper-item-body>
+                                </paper-item>
+                            </div>
+                        </paper-material>
+                    </div>
+                </div>
+            </iron-pages>
+        </paper-header-panel>
+        <paper-toolbar class="footer">
+            <div id="spanDate"></div>
+        </paper-toolbar>
+
+    </template>
+
+</body>
+
+
+
+<script src='http://localhost:3700/socket.io/socket.io.js'></script>
+<script src="imports/javascript/main.js"></script>
+<script>
+    
+    $(document).ready(function () {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'];
+        var d = new Date();
+        var date = document.getElementById("spanDate");
+
+
+        date.innerHTML = "Current date " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " Current Time " + ("0" + d.getHours()).slice(-2) + ":" +
+            ("0" + d.getMinutes()).slice(-2) + ":" +
+            ("0" + d.getSeconds()).slice(-2);
+
+        document.addEventListener('WebComponentsReady', function () {
+            var template = document.querySelector('template[is="dom-bind"]');
+            template.selected = 4; // selected is an index by default
+        });
+    });
+
+
+    var messages = [];
+    var socket = io.connect('http://localhost:3700');
+    socket.on('message', function (data) {
+
+        //console.log(JSON.stringify(data,null," "));
+        messages.push(data.value + " " + data.timestamp);
+        updateChart(data.value);
+    });
+</script>
