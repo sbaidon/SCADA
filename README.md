@@ -1,4 +1,3 @@
-node-opcua-htmlpanel
+SCADA web application
 ====================
-
-small HTML panel to display a OPCUA monitored variable based on node, express, socket.io  and node-opcua
+Real time SCADA application that utilizes HTTP and OPC protocols
