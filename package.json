@@ -1,6 +1,6 @@
 {
   "name": "SCADA",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Real time SCADA web application",
   "main": "app.js",
   "bin": {},
