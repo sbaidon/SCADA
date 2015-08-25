@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "start app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
