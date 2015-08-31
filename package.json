@@ -1,5 +1,5 @@
 {
-  "name": "SCADA",
+  "name": "scada",
   "version": "1.0.1",
   "description": "Real time SCADA web application",
   "main": "app.js",
@@ -12,10 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url":"https://github.com/sbaidon/SCADA"
+    "url": "git+https://github.com/sbaidon/SCADA.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "Sergio Baidon",
   "license": "MIT",
   "devDependencies": {},
@@ -25,5 +24,11 @@
     "node-opcua": "~0.0.19",
     "colors": "*"
   },
-  "engines" : {"node" : ">=0.10.3 <0.12"} 
+  "engines": {
+    "node": ">=0.10.3 <0.12"
+  },
+  "bugs": {
+    "url": "https://github.com/sbaidon/SCADA/issues"
+  },
+  "homepage": "https://github.com/sbaidon/SCADA#readme"
 }
