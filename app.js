@@ -85,7 +85,7 @@ function startHTTPServer() {
 
     var monitoredItem = the_subscription.monitor(
         {
-            nodeId: "ns=2;s=Simulation Examples.Functions.Random2",
+            nodeId: "ns=2;s=Humidity",
             attributeId: 13
         },
         {
